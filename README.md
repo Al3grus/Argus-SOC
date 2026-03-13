@@ -1,4 +1,5 @@
-# 🔍 Argus SOC — AI-Augmented Security Operations Centre
+# Argus SOC
+## AI-Augmented Security Operations Center
 
 > *Vigilance by design. Intelligence by AI.*
 
@@ -34,15 +35,15 @@ The lab uses a **two-node architecture** connected over a WireGuard VPN tunnel, 
 │                        MAIN VLAN (192.168.1.0/24)               │
 │                                                                 │
 │   ┌──────────────────────────┐                                  │
-│   │   NODE A — Pi 5 (8GB)   │  ←── SOC Brain                  │
-│   │   192.168.1.10           │                                  │
-│   │  ┌─────────────────────┐ │  Wazuh Manager + Indexer        │
-│   │  │  Wazuh Manager      │ │  n8n Workflow Engine            │
-│   │  │  n8n                │ │  Grafana Dashboards             │
-│   │  │  Grafana            │ │  Claude API (AI Triage)         │
-│   │  │  Claude API Triage  │ │  WireGuard VPN Server           │
-│   │  │  Pi-hole DNS        │ │  Pi-hole DNS                    │
-│   │  │  WireGuard Server   │ │                                 │
+│   │   NODE A — Pi 5 (8GB)    │  ←── SOC Brain                   │
+│   │       192.168.1.10       │                                  │
+│   │  ┌─────────────────────┐ │  Wazuh Manager + Indexer         │
+│   │  │  Wazuh Manager      │ │  n8n Workflow Engine             │
+│   │  │  n8n                │ │  Grafana Dashboards              │
+│   │  │  Grafana            │ │  Claude API (AI Triage)          │
+│   │  │  Claude API Triage  │ │  WireGuard VPN Server            │
+│   │  │  Pi-hole DNS        │ │  Pi-hole DNS                     │
+│   │  │  WireGuard Server   │ │                                  │
 │   │  └─────────────────────┘ │                                  │
 │   └──────────┬───────────────┘                                  │
 │              │ WireGuard VPN (10.0.0.0/24)                      │
@@ -50,23 +51,23 @@ The lab uses a **two-node architecture** connected over a WireGuard VPN tunnel, 
                │ Encrypted Tunnel
 ┌──────────────┼──────────────────────────────────────────────────┐
 │              │         LAB VLAN (192.168.10.0/24)               │
-│   ┌──────────┴───────────────┐                                  │
-│   │  NODE B — Pi 3B+ (1GB)  │  ←── Remote Edge Sensor         │
-│   │  192.168.10.20           │                                  │
-│   │  ┌─────────────────────┐ │  Wazuh Agent                    │
-│   │  │  Wazuh Agent        │ │  Suricata NIDS (SPAN port)      │
-│   │  │  Suricata (eth1)    │ │  Cowrie SSH Honeypot            │
-│   │  │  Cowrie Honeypot    │ │  WireGuard VPN Peer             │
-│   │  │  WireGuard Peer     │ │                                 │
-│   │  └─────────────────────┘ │                                  │
-│   └──────────────────────────┘                                  │
+│   ┌──────────┴──────────────┐                                   │
+│   │  NODE B — Pi 3B+ (1GB)  │  ←── Remote Edge Sensor           │
+│   │      192.168.10.20      │                                   │
+│   │ ┌─────────────────────┐ │  Wazuh Agent                      │
+│   │ │  Wazuh Agent        │ │  Suricata NIDS (SPAN port)        │
+│   │ │  Suricata (eth1)    │ │  Cowrie SSH Honeypot              │
+│   │ │  Cowrie Honeypot    │ │  WireGuard VPN Peer               │
+│   │ │  WireGuard Peer     │ │                                   │
+│   │ └─────────────────────┘ │                                   │
+│   └─────────────────────────┘                                   │
 │                                                                 │
-│   ┌──────────────────────────┐   ┌──────────────────────────┐  │
-│   │  TL-SG105E Managed       │   │  ThinkPad T480           │  │
-│   │  Switch (SPAN Port)      │   │  Kali Linux VM           │  │
-│   │  Mirrors ALL Lab VLAN    │   │  Metasploitable 2 VM     │  │
-│   │  traffic → Pi 3B+ eth1   │   │  DVWA Docker             │  │
-│   └──────────────────────────┘   └──────────────────────────┘  │
+│   ┌──────────────────────────┐   ┌──────────────────────────┐   │
+│   │  TL-SG105E Managed       │   │  ThinkPad T480           │   │
+│   │  Switch (SPAN Port)      │   │  Kali Linux VM           │   │
+│   │  Mirrors ALL Lab VLAN    │   │  Metasploitable 2 VM     │   │
+│   │  traffic → Pi 3B+ eth1   │   │  DVWA Docker             │   │
+│   └──────────────────────────┘   └──────────────────────────┘   │
 └─────────────────────────────────────────────────────────────────┘
 ```
 
@@ -133,61 +134,9 @@ Five fully documented red team scenarios covering the full kill chain:
 |---|----------|----------------|-------------------|--------|
 | [1](docs/detection-scenarios/01-reconnaissance.md) | Reconnaissance | T1046 — Network Service Discovery | Suricata ET SCAN | 🔨 Planned |
 | [2](docs/detection-scenarios/02-brute-force.md) | Credential Brute Force | T1110.001 — Password Guessing | Cowrie + Wazuh | 🔨 Planned |
-| [3](docs/detection-scenarios/03-exploitation.md) | Remote Code Execution ⭐ | T1190 — Exploit Public-Facing App | Suricata payload sig | 🔨 Planned |
+| [3](docs/detection-scenarios/03-exploitation.md) | Remote Code Execution | T1190 — Exploit Public-Facing App | Suricata payload sig | 🔨 Planned |
 | [4](docs/detection-scenarios/04-web-attacks.md) | Web Application Attacks | T1190, T1059.007 | Suricata web rules | 🔨 Planned |
 | [5](docs/detection-scenarios/05-lateral-movement.md) | Lateral Movement | T1021, T1083, T1078 | Wazuh anomalous auth | 🔨 Planned |
-
-> ⭐ **Scenario 3** (vsftpd backdoor RCE) is the centrepiece: actual exploitation, actual root shell, full pipeline fires — Suricata → Wazuh → Claude (Critical) → Telegram → PagerDuty.
-
-Each scenario documents: exact commands, detection evidence (Suricata SIDs, Wazuh alert IDs, Claude JSON response, Telegram screenshot), and critically — **what the stack missed and why**.
-
----
-
-## ⭐ Featured Scenario: Remote Code Execution (Scenario 3)
-
-The centrepiece of the project. Metasploit exploits the vsftpd 2.3.4 backdoor (CVE-2011-2523) on Metasploitable 2 — and the full Argus pipeline fires in real time.
-
-**1. Attack — from Kali Linux VM:**
-```bash
-msfconsole
-use exploit/unix/ftp/vsftpd_234_backdoor
-set RHOSTS 192.168.10.x
-run
-# → root shell obtained
-```
-
-**2. Suricata detects the backdoor trigger in FTP traffic:**
-```
-[**] ET EXPLOIT Possible vsftpd 2.3.4 backdoor username trigger [**]
-SID: 2011784 | Classification: Attempted Administrator Privilege Gain
-192.168.10.50:54321 → 192.168.10.30:21
-```
-
-**3. Wazuh forwards to n8n → Claude API classifies:**
-```json
-{
-  "severity": "critical",
-  "summary": "Suricata detected vsftpd 2.3.4 backdoor trigger in FTP traffic. The smiley-face username pattern matches CVE-2011-2523. This is active exploitation resulting in remote code execution.",
-  "mitre_technique": "T1190",
-  "mitre_technique_name": "Exploit Public-Facing Application",
-  "recommended_action": "respond_immediately",
-  "confidence": 0.97
-}
-```
-
-**4. Telegram alert fires to operator phone within seconds:**
-```
-🔴 CRITICAL ALERT — Argus SOC
-Severity: CRITICAL (confidence: 0.97)
-MITRE: T1190 — Exploit Public-Facing Application
-Action: RESPOND IMMEDIATELY
-Source: 192.168.10.50 (Kali VM) → Target: 192.168.10.30 (Metasploitable 2)
-Suricata SID: 2011784
-```
-
-**5. PagerDuty incident created automatically** — unacknowledged within 5 minutes triggers phone escalation.
-
-**Detection gap documented:** Once the attacker establishes an encrypted reverse HTTPS shell post-exploitation, Suricata sees only the TLS handshake. The initial exploit is detected; post-exploitation C2 traffic is not. [Full gap analysis →](docs/detection-scenarios/03-exploitation.md#detection-gaps)
 
 ---
 
@@ -218,34 +167,34 @@ Suricata SID: 2011784
 argus-soc/
 ├── README.md
 ├── docs/
-│   ├── architecture.md          # Full architecture + tool rationale
-│   ├── hardware.md              # Hardware inventory, budget, memory planning
+│   ├── architecture.md                 # Full architecture + tool rationale
+│   ├── hardware.md                     # Hardware inventory, budget, memory planning
 │   ├── assets/
-│   │   ├── demo.gif             # 30-second pipeline demo (Phase 5)
-│   │   └── architecture.png     # Network diagram
+│   │   ├── demo.gif                    # 30-second pipeline demo (Phase 5)
+│   │   └── architecture.png            # Network diagram
 │   └── detection-scenarios/
 │       ├── 01-reconnaissance.md
 │       ├── 02-brute-force.md
-│       ├── 03-exploitation.md   # ⭐ Hero scenario
+│       ├── 03-exploitation.md
 │       ├── 04-web-attacks.md
 │       └── 05-lateral-movement.md
-├── pi5-central/                 # Node A configuration
-│   ├── wazuh/                   # Custom rules, ossec.conf
-│   ├── n8n/                     # Workflow JSON exports
-│   ├── grafana/                 # Dashboard JSON exports
-│   └── scripts/                 # ai_triage.py, wg_monitor.sh, report gen
-├── pi3-edge/                    # Node B configuration
-│   ├── suricata/                # suricata.yaml, custom rules
-│   ├── cowrie/                  # cowrie.cfg
-│   └── wireguard/               # wg0.conf template (keys redacted)
+├── pi5-central/                        # Node A configuration
+│   ├── wazuh/                          # Custom rules, ossec.conf
+│   ├── n8n/                            # Workflow JSON exports
+│   ├── grafana/                        # Dashboard JSON exports
+│   └── scripts/                        # ai_triage.py, wg_monitor.sh, report gen
+├── pi3-edge/                           # Node B configuration
+│   ├── suricata/                       # suricata.yaml, custom rules
+│   ├── cowrie/                         # cowrie.cfg
+│   └── wireguard/                      # wg0.conf template (keys redacted)
 ├── network/
-│   └── span-port-setup.md       # TL-SG105E SPAN configuration guide
-├── sample-outputs/              # Evidence from red team scenarios
-│   ├── claude-triage-examples/  # Real Claude API responses per scenario
+│   └── span-port-setup.md              # TL-SG105E SPAN configuration guide
+├── sample-outputs/                     # Evidence from red team scenarios
+│   ├── claude-triage-examples/         # Real Claude API responses per scenario
 │   ├── telegram-alert-screenshots/
 │   └── sample-incident-report.pdf
 └── reports/
-    └── mitre-coverage.md        # ATT&CK coverage map with confidence ratings
+    └── mitre-coverage.md               # ATT&CK coverage map with confidence ratings
 ```
 
 ---
@@ -275,20 +224,6 @@ Evidence from the red team scenarios, added as the build progresses:
 | T1078 | Valid Accounts | Defence Evasion | Low (requires UEBA) |
 
 **[→ Full coverage map with evidence links](reports/mitre-coverage.md)**
-
----
-
-## 💰 Cost
-
-| Item | Monthly Cost |
-|------|-------------|
-| Anthropic API (Claude) | ~€5–10 |
-| PagerDuty | Free (tier) |
-| Telegram Bot | Free |
-| Electricity (2× Pi + switch) | ~€3–5 |
-| **Total** | **~€8–15/month** |
-
-Hardware: ~€175–240 one-time (Pi 5, Pi 3B+, TL-SG105E, USB ethernet adapter, cables).
 
 ---
 
@@ -342,16 +277,6 @@ Phase 5 (Week 6) — Portfolio
   ├── Record 30-second demo GIF (Scenario 3 full pipeline)
   └── Populate all scenario evidence, screenshots, Claude JSON responses
 ```
-
-**Key verification:** After Phase 0, run `tcpdump -i eth1` on Pi 3B+ while pinging between other Lab VLAN hosts. You must see their traffic. If you only see Pi 3B+'s own traffic, the SPAN port is not configured correctly — fix it before proceeding.
-
----
-
-
-
-**Ricardo Infante** — [github.com/Al3grus](https://github.com/Al3grus) — Brussels, Belgium
-
-*Cybersecurity professional focused on Blue Team / SOC / Detection Engineering roles. eJPT certified (97%). TryHackMe top 4%. Former Mastercard Security Officer (PKI/cryptography).*
 
 ---
 
