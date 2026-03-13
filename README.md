@@ -1,5 +1,5 @@
 # Argus SOC
-## AI-Augmented Security Operations Center
+# AI-Augmented Security Operations Center
 
 > *Vigilance by design. Intelligence by AI.*
 
