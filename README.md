@@ -370,5 +370,3 @@ All work uses sanitised data in controlled lab environments. No unauthorised acc
 [MIT](LICENSE) - configurations and scripts are free to use and adapt. Attribution appreciated.
 
 ---
-
-*Built by [Ricardo Infante](https://github.com/Al3grus) - Brussels, Belgium - 2026*
