@@ -307,20 +307,20 @@ Evidence from the red team scenarios, added as the build progresses:
 
 ```
 Phase 0 - Core Infrastructure
-  [ ] Flash Pi 5 (argus-central) + Pi 3B+ (argus-edge-01)
-  [ ] Configure router DHCP - single subnet 192.168.1.0/24
-  [ ] Configure Cisco SG300-10MP - SPAN (GE1+GE3+GE5+GE10 → GE2)
-  [ ] Install Pi-hole v6 on Pi 5
-  [ ] Install WireGuard VPN (Pi 5 server / Pi 3B+ peer / ThinkPad peer)
-  [ ] Deploy Hetzner CX23 VPS (Helsinki) - install full Wazuh stack v4.14.4
-  [ ] Install Wazuh Agent on Pi 3B+ → register with Hetzner manager (Active)
-  [ ] Install Suricata on Pi 3B+ (eth1 SPAN, ET Open ruleset)
-  [ ] Install Zeek on Pi 3B+ (eth1 SPAN, JSON logs to Wazuh)
+  [x] Flash Pi 5 (argus-central) + Pi 3B+ (argus-edge-01)
+  [x] Configure router DHCP - single subnet 192.168.1.0/24
+  [x] Configure Cisco SG300-10MP - SPAN (GE1+GE3+GE5+GE10 → GE2)
+  [x] Install Pi-hole v6 on Pi 5
+  [x] Install WireGuard VPN (Pi 5 server / Pi 3B+ peer / ThinkPad peer)
+  [x] Deploy Hetzner CX23 VPS (Helsinki) - install full Wazuh stack v4.14.4
+  [x] Install Wazuh Agent on Pi 3B+ → register with Hetzner manager (Active)
+  [x] Install Suricata on Pi 3B+ (eth1 SPAN, ET Open ruleset)
+  [x] Install Zeek on Pi 3B+ (eth1 SPAN, JSON logs to Wazuh)
   [ ] Deploy Metasploitable 2 + DVWA Docker containers on Pi 5
 
 Phase 1 - AI Triage Pipeline
-  [ ] Install n8n on Hetzner (co-located with Wazuh, port 5678)
-  [ ] Build ai_triage.py (Claude API structured prompting) - tested
+  [x] Install n8n on Hetzner (co-located with Wazuh, port 5678)
+  [x] Build ai_triage.py (Claude API structured prompting) - tested
   [ ] Configure Telegram Bot + PagerDuty EU instance
   [ ] Build n8n alert workflow (Wazuh webhook → Claude → routing → Telegram/PagerDuty)
   [ ] Configure Wazuh webhook integration in ossec.conf
