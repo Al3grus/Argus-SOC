@@ -1,0 +1,29 @@
+# MediaMTX Configuration — Pi 5 (argus-central)
+# Location: /etc/mediamtx.yml
+# Documentation: https://github.com/bluenviron/mediamtx
+
+# Stream paths
+paths:
+  cam0:
+    source: rpiCamera
+    rpiCameraWidth: 1280
+    rpiCameraHeight: 720
+    rpiCameraFPS: 15
+    rpiCameraIDR: 60
+
+# RTSP server — for Frigate and VLC
+rtsp:
+  address: :8554
+
+# HLS server — for Grafana dashboard and browser playback
+hls:
+  address: :8888
+  allow_origin: "*"
+
+# WebRTC server — for low-latency browser viewing
+webrtc:
+  address: :8889
+
+# Logging
+log_level: warn
+log_destinations: [stdout]

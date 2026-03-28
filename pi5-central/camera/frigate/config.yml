@@ -1,0 +1,51 @@
+# Frigate NVR Configuration — Pi 5 (argus-central)
+# Location: /home/pi/frigate/config/config.yml
+# Documentation: https://docs.frigate.video
+
+# Database
+database:
+  path: /media/frigate/frigate.db
+
+# Recording storage
+record:
+  enabled: true
+  retain:
+    days: 7
+    mode: motion
+
+# Snapshot storage
+snapshots:
+  enabled: true
+  retain:
+    default: 7
+
+# Detection — CPU-only (Pi 5 has no supported hardware accelerator for Frigate)
+detectors:
+  cpu:
+    type: cpu
+
+# Camera configuration
+cameras:
+  cam0:
+    ffmpeg:
+      inputs:
+        - path: rtsp://192.168.1.10:8554/cam0
+          roles:
+            - detect
+            - record
+
+    detect:
+      enabled: true
+      width: 1280
+      height: 720
+      fps: 5
+
+    objects:
+      track:
+        - person
+        - car
+        - bicycle
+
+    motion:
+      threshold: 25
+      contour_area: 100

@@ -1,0 +1,42 @@
+# Keys and credentials — NEVER commit these
+*.key
+*.pem
+*.p12
+.env
+.env.*
+secrets/
+credentials/
+
+# WireGuard private keys
+*private*
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+venv/
+.venv/
+
+# Node / n8n
+node_modules/
+npm-debug.log
+
+# Logs
+*.log
+*.jsonl
+
+# OS
+.DS_Store
+Thumbs.db
+
+# VSCode
+.vscode/settings.json
+
+# Temporary
+*.tmp
+*.bak
