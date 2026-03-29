@@ -321,13 +321,13 @@ Phase 0 - Core Infrastructure
 Phase 1 - AI Triage Pipeline
   [x] Install n8n on Hetzner (co-located with Wazuh, port 5678)
   [x] Build ai_triage.py (Claude API structured prompting) - tested
-  [ ] Configure Telegram Bot + PagerDuty EU instance
-  [ ] Build n8n alert workflow (Wazuh webhook → Claude → routing → Telegram/PagerDuty)
-  [ ] Configure Wazuh webhook integration in ossec.conf
+  [x] Configure Telegram Bot + PagerDuty EU instance
+  [x] Build n8n alert workflow (Wazuh webhook → Claude → routing → Telegram/PagerDuty)
+  [x] Configure Wazuh webhook integration in ossec.conf
 
 Phase 2 - Threat Intel + Honeypot
   [ ] Deploy Cowrie SSH honeypot on Pi 3B+
-  [ ] Configure Kali Linux VM on ThinkPad
+  [x] Configure Kali Linux VM on ThinkPad
 
 Phase 3 - Pre-Attack Setup
   [ ] Deploy Velociraptor server (Hetzner) + agent (Pi 3B+)
