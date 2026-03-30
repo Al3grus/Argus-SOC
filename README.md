@@ -316,7 +316,7 @@ Phase 0 - Core Infrastructure
   [x] Install Wazuh Agent on Pi 3B+ → register with Hetzner manager (Active)
   [x] Install Suricata on Pi 3B+ (eth1 SPAN, ET Open ruleset)
   [x] Install Zeek on Pi 3B+ (eth1 SPAN, JSON logs to Wazuh)
-  [ ] Deploy Metasploitable 2 + DVWA Docker containers on Pi 5
+  [x] Deploy Metasploitable 2 + DVWA Docker containers on Pi 5
 
 Phase 1 - AI Triage Pipeline
   [x] Install n8n on Hetzner (co-located with Wazuh, port 5678)
