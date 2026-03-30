@@ -326,12 +326,12 @@ Phase 1 - AI Triage Pipeline
   [x] Configure Wazuh webhook integration in ossec.conf
 
 Phase 2 - Threat Intel + Honeypot
-  [ ] Deploy Cowrie SSH honeypot on Pi 3B+
+  [x] Deploy Cowrie SSH honeypot on Pi 3B+
   [x] Configure Kali Linux VM on ThinkPad
 
 Phase 3 - Pre-Attack Setup
-  [ ] Deploy Velociraptor server (Hetzner) + agent (Pi 3B+)
-  [ ] Install Grafana on Pi 5 + build 5 dashboards
+  [x] Deploy Velociraptor server (Hetzner) + agent (Pi 3B+)
+  [x] Install Grafana on Pi 5 + build dashboards
 
 Phase 4 - Red Team Scenarios
   [ ] Execute and document all 5 attack scenarios with full evidence
