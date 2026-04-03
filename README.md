@@ -309,7 +309,7 @@ Evidence from the red team scenarios, added as the build progresses:
 Phase 0 - Core Infrastructure
   [x] Flash Pi 5 (argus-central) + Pi 3B+ (argus-edge-01)
   [x] Configure router DHCP - single subnet 192.168.1.0/24
-  [x] Configure Cisco SG300-10MP - SPAN (GE1+GE3+GE5+GE10 → GE2)
+  [x] Configure Cisco SG300-10MP - SPAN (GE1+GE5+GE10 → GE2)
   [x] Install Pi-hole v6 on Pi 5
   [x] Install WireGuard VPN (Pi 5 server / Pi 3B+ peer / ThinkPad peer)
   [x] Deploy Hetzner CX23 VPS (Helsinki) - install full Wazuh stack v4.14.4
