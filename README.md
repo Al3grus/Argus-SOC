@@ -291,10 +291,10 @@ Evidence from the red team scenarios, added as the build progresses:
 | Phase | Description | Status |
 |-------|-------------|--------|
 | **Phase 0** | Core Infrastructure - Pi 5, Pi 3B+, Hetzner VPS, Wazuh, WireGuard, Pi-hole, Cisco SG300 SPAN | ✅ Complete |
-| **Phase 1** | AI Triage Pipeline - n8n, Claude API, Telegram Bot, PagerDuty | 🔄 In Progress |
-| **Phase 2** | Network Detection, Threat Intel, Honeypot - Suricata, Zeek, Cowrie, attack targets | 🔄 Partial |
-| **Phase 3** | Pre-Attack Setup — Velociraptor, Grafana dashboards | ⏳ Pending |
-| **Phase 4** | Red Team Attack Scenarios — 5 documented scenarios, full kill chain | ⏳ Pending |
+| **Phase 1** | AI Triage Pipeline - n8n, Claude API, Telegram Bot, PagerDuty | ✅ Complete |
+| **Phase 2** | Network Detection, Threat Intel, Honeypot - Suricata, Zeek, Cowrie, attack targets | ✅ Complete |
+| **Phase 3** | Pre-Attack Setup — Velociraptor, Grafana dashboards | ✅ Complete |
+| **Phase 4** | Red Team Attack Scenarios — 5 documented scenarios, full kill chain | 🔄 In Progress |
 | **Phase 5** | Detection Engineering + Reporting — custom rules, PDF reports | ⏳ Pending |
 | **Phase 6** | Physical Security — Camera stack, Frigate, SOC integration | ⏳ Pending |
 | **Phase 7** | Polish, Portfolio, GitHub — Demo GIF, scenario evidence, sample outputs | ⏳ Pending |
