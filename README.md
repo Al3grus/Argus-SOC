@@ -3,7 +3,7 @@
 
 > *Edge to cloud. Threat to response.*
 
-**Status:** 🔨 Under active construction - Phase 0 complete, Phase 1 in progress (2026)
+**Status:** 🔨 Phases 0–3 complete, Phase 4 in progress
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Platform: Raspberry Pi](https://img.shields.io/badge/Platform-Raspberry%20Pi-C51A4A?logo=raspberrypi&logoColor=white)](docs/hardware.md)
