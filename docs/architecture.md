@@ -6,6 +6,11 @@ Argus SOC uses a three-tier architecture that mirrors how commercial MSSPs and M
 
 ---
 
+![Argus SOC — Full Architecture Diagram](assets/architecture.png)
+_Argus SOC — Three-tier MSSP topology. Click to enlarge._
+
+---
+
 ## The Three Tiers
 
 ### Tier 1 — Cloud SOC Platform (Hetzner VPS)
