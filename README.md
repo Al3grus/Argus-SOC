@@ -3,7 +3,7 @@
 
 > *Edge to cloud. Threat to response.*
 
-**Status:** 🔨 Phases 0–3 complete, Phase 4 in progress
+**Status:** 🔨 Phases 0–4 complete (including detection engineering), Phase 5 reporting next
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Platform: Raspberry Pi](https://img.shields.io/badge/Platform-Raspberry%20Pi-C51A4A?logo=raspberrypi&logoColor=white)](docs/hardware.md)
@@ -31,7 +31,7 @@ A fully functional, AI-powered Security Operations Centre built on home lab hard
 
 ## 🏗️ Architecture - MSSP Topology
 
-The lab uses a three-tier architecture that mirrors how Managed Security Service Providers (MSSPs) operate: a cloud-hosted central SOC platform (Hetzner), a client site with existing infrastructure and intentionally vulnerable services (Pi 5), and an MSSP-deployed edge sensor that monitors everything (Pi 3B+). The attacker (Kali on ThinkPad) operates from outside the client network on an isolated guest WiFi - exactly how a real external threat actor would.
+The lab uses a three-tier architecture that mirrors how Managed Security Service Providers (MSSPs) operate: a cloud-hosted central SOC platform (Hetzner), a client site with existing infrastructure and intentionally vulnerable services (Pi 5), and an MSSP-deployed edge sensor that monitors everything (Pi 3B+). The attacker (Kali on ThinkPad) operates from the main WiFi subnet — guest WiFi provides genuine client isolation and blocks access to the lab network.
 
 ```
 ┌──────────────────────────────────────────────────────────────────────────────┐
@@ -80,11 +80,12 @@ The lab uses a three-tier architecture that mirrors how Managed Security Service
 └───────────────────────────────────────────────────────────────────────────────┘
 
 ┌───────────────────────────────────────────────────────────────────────────────┐
-│      EXTERNAL ATTACKER - GUEST WiFi (isolated from client network)            │
+│      ATTACKER - Main WiFi (192.168.1.101)                                     │
 │                                                                               │
 │   ┌──────────────────────────────────────────────────────────────────────┐    │
-│   │  Lenovo ThinkPad T480                                                │    │
-│   │  Kali Linux VM - Nmap · Metasploit · Hydra · Burp Suite · SQLmap     │    │
+│   │  Lenovo ThinkPad T480 (192.168.1.100)                                │    │
+│   │  Kali Linux VM (192.168.1.101)                                       │    │
+│   │  Nmap · Metasploit · Hydra · SQLmap                                  │    │
 │   │  WireGuard tunnel (10.0.0.3) for management access when needed       │    │
 │   └──────────────────────────────────────────────────────────────────────┘    │
 └───────────────────────────────────────────────────────────────────────────────┘
@@ -101,7 +102,7 @@ The lab uses a three-tier architecture that mirrors how Managed Security Service
 | **argus-soc** | Hetzner CX23 (2 vCPU, 4GB, x86_64, Helsinki) | MSSP Cloud SOC Platform | Wazuh Manager + Indexer + Dashboard, n8n, Velociraptor server, Claude API triage, PDF reporting |
 | **argus-central** | Raspberry Pi 5 (8GB) · 192.168.1.10 | Client Infrastructure + Physical Security | Pi-hole DNS, WireGuard VPN server, Grafana, MediaMTX RTSP, Frigate NVR, OV5647 camera, Metasploitable 2 (Docker), DVWA (Docker) |
 | **argus-edge-01** | Raspberry Pi 3B+ (1GB) · 192.168.1.20 | MSSP Remote Edge Sensor | Wazuh Agent, Suricata NIDS (SPAN), Zeek protocol analysis, Cowrie SSH honeypot, Velociraptor agent |
-| **Red Team** | Lenovo ThinkPad T480 · GUEST WiFi | External Attacker | Kali Linux VM |
+| **Red Team** | Lenovo ThinkPad T480 · 192.168.1.100 / Kali VM · 192.168.1.101 | Attacker | Kali Linux VM on main WiFi |
 
 ---
 
@@ -113,12 +114,12 @@ Every Wazuh alert above threshold flows through an automated triage pipeline on 
 Traffic Capture (Suricata + Zeek on SPAN interface - eth1)
        ↓
 Detection Layer
-  ├── Suricata: Signature matching (ET Open ruleset, 49,325 rules)
+  ├── Suricata: Signature matching (ET Open ruleset, 49,325 rules + 4 custom rules)
   └── Zeek: Protocol metadata (conn.log, dns.log, http.log, ssl.log)
        ↓
 Log Forwarding (Wazuh Agent → Hetzner Manager - direct over internet, port 1514)
        ↓
-SIEM Correlation (Wazuh: multi-source, MITRE ATT&CK mapping)
+SIEM Correlation (Wazuh: multi-source, MITRE ATT&CK mapping, 9 custom rules)
        ↓
 Webhook Trigger (Wazuh → n8n at level 3+, localhost:5678)
        ↓
@@ -170,17 +171,17 @@ Grafana - live HLS feed embedded in SOC dashboard
 
 ## 🎯 Attack Scenarios - Detection Coverage
 
-Five fully documented red team scenarios covering the full kill chain. Kali (ThinkPad, guest WiFi) attacks targets on Pi 5 (Metasploitable 2, DVWA via Docker) and Pi 3B+ (Cowrie honeypot). Pi 3B+ SPAN captures all traffic through the switch.
+Five fully documented red team scenarios covering the full kill chain. Each scenario includes initial detection results, gap analysis, custom rule remediation, and re-test verification.
 
-| # | Scenario | MITRE Technique | Primary Detection | Status |
-|---|----------|----------------|-------------------|--------|
-| [1](docs/detection-scenarios/01-reconnaissance.md) | Reconnaissance | T1046 - Network Service Discovery | Suricata ET SCAN + Zeek conn.log | 🔨 Planned |
-| [2](docs/detection-scenarios/02-brute-force.md) | Credential Brute Force | T1110.001 - Password Guessing | Cowrie + Wazuh correlation | 🔨 Planned |
-| [3](docs/detection-scenarios/03-exploitation.md) | Remote Code Execution | T1190 - Exploit Public-Facing App | Suricata payload signature | 🔨 Planned |
-| [4](docs/detection-scenarios/04-web-attacks.md) | Web Application Attacks | T1190, T1059.007 | Suricata web rules (HTTP) | 🔨 Planned |
-| [5](docs/detection-scenarios/05-lateral-movement.md) | Lateral Movement | T1021, T1083, T1078 | Wazuh + Zeek + custom rule | 🔨 Planned |
+| # | Scenario | MITRE Technique | Initial Detection | After Remediation | Telegram |
+|---|----------|----------------|-------------------|-------------------|----------|
+| [1](docs/detection-scenarios/01-reconnaissance.md) | Reconnaissance (Nmap) | T1046 | Partial (protocol anomalies) | ET SCAN firing (199 hits) | No (level 3) |
+| [2](docs/detection-scenarios/02-brute-force.md) | Credential Brute Force (Hydra) | T1110.001 | Full detection | N/A — worked first time | Yes ✅ MEDIUM |
+| [3](docs/detection-scenarios/03-exploitation.md) | Remote Code Execution (UnrealIRCd) | T1190 | Zero detection | 12 CRITICAL alerts | Yes ✅ CRITICAL |
+| [4](docs/detection-scenarios/04-web-attacks.md) | Web Application Attacks (SQLmap) | T1190 | Zero detection | 33 alerts, SQLmap identified | Yes ✅ MEDIUM |
+| [5](docs/detection-scenarios/05-lateral-movement.md) | Lateral Movement (pivot) | T1021 | Partial (Claude: LOW) | CRITICAL, T1021 mapped | Yes ✅ CRITICAL |
 
-Each scenario documents: exact commands, Wazuh alert ID, Suricata SID + Zeek log entry, full Claude API JSON response, Telegram screenshot, Velociraptor VQL output where applicable, and **detection gaps with root cause analysis**.
+Each scenario documents: exact commands, Wazuh alert ID, Suricata SID + Zeek log entry, full Claude API JSON response, Telegram screenshot, and **detection gaps with root cause analysis and remediation**.
 
 ---
 
@@ -202,10 +203,10 @@ Each scenario documents: exact commands, Wazuh alert ID, Suricata SID + Zeek log
 | Honeypot | Cowrie SSH | Full attacker session logs: credentials, commands, file uploads |
 | Attack Targets | Metasploitable 2 + DVWA (Docker on Pi 5) | Vulnerable services running on client infrastructure - monitored by MSSP edge sensor |
 | Physical Security | MediaMTX + Frigate (Pi 5) | RTSP/HLS/WebRTC streaming + AI object detection integrated into SOC alerts |
-| Dashboards | Grafana (Pi 5) | Client-facing security posture reporting, camera feed embed, Suricata/Zeek stats |
+| Dashboards | Grafana (Pi 5) | SOC operations dashboard with KPI stats, alert timeline, severity distribution, MITRE techniques, geomap |
 | DNS | Pi-hole v6 (Pi 5) | DNS filtering + query logging forwarded to Wazuh as telemetry |
 | Reporting | Jinja2 + WeasyPrint | Auto-generated PDF incident reports from structured event data |
-| Red Team | Kali Linux (ThinkPad, GUEST WiFi) | External attacker platform - isolated from client network |
+| Red Team | Kali Linux (ThinkPad, main WiFi) | Attacker platform on same subnet as targets |
 
 **[→ Full tool selection rationale with rejected alternatives](/docs/architecture.md#tool-selection-rationale)**
 
@@ -274,13 +275,12 @@ Evidence from the red team scenarios, added as the build progresses:
 
 | Technique | Name | Tactic | Primary Detection | Confidence |
 |-----------|------|--------|-------------------|------------|
-| T1046 | Network Service Discovery | Discovery | Suricata ET SCAN + Zeek conn.log | High (aggressive) / Low (stealth) |
-| T1110.001 | Brute Force: Password Guessing | Credential Access | Cowrie + Wazuh | High |
-| T1190 | Exploit Public-Facing Application | Initial Access | Suricata payload signature | High (known CVE) |
-| T1059.007 | Command and Scripting: JavaScript | Execution | Suricata web rules (HTTP only) | Medium |
-| T1021 | Remote Services | Lateral Movement | Wazuh + Zeek + custom rule | Medium |
-| T1083 | File and Directory Discovery | Discovery | Velociraptor VQL + Wazuh FIM | Medium |
-| T1078 | Valid Accounts | Defence Evasion | Wazuh custom rule (anomalous auth) | Low (requires UEBA for High) |
+| T1046 | Network Service Discovery | Discovery | Suricata ET SCAN (after HOME_NET fix) + Zeek conn.log | High (aggressive) / Low (stealth) |
+| T1110.001 | Brute Force: Password Guessing | Credential Access | Cowrie + Wazuh custom rules 100010/100011 | High |
+| T1190 | Exploit Public-Facing Application | Initial Access | Custom Suricata SID 9000001 + Wazuh rule 100030 | High (after remediation) |
+| T1059 | Command and Scripting Interpreter | Execution | Custom Suricata SID 9000002 + Wazuh rule 100021 (reverse shell) | High (after remediation) |
+| T1021 | Remote Services | Lateral Movement | Wazuh custom rule 100033 (server IP escalation) | High (after remediation) |
+| T1078 | Valid Accounts | Defence Evasion | Cowrie + Wazuh rule 100011 | Medium |
 
 **[→ Full coverage map with evidence links](reports/mitre-coverage.md)**
 
@@ -292,10 +292,10 @@ Evidence from the red team scenarios, added as the build progresses:
 |-------|-------------|--------|
 | **Phase 0** | Core Infrastructure - Pi 5, Pi 3B+, Hetzner VPS, Wazuh, WireGuard, Pi-hole, Cisco SG300 SPAN | ✅ Complete |
 | **Phase 1** | AI Triage Pipeline - n8n, Claude API, Telegram Bot, PagerDuty | ✅ Complete |
-| **Phase 2** | Network Detection, Threat Intel, Honeypot - Suricata, Zeek, Cowrie, attack targets | ✅ Complete |
-| **Phase 3** | Pre-Attack Setup — Velociraptor, Grafana dashboards | ✅ Complete |
-| **Phase 4** | Red Team Attack Scenarios — 5 documented scenarios, full kill chain | 🔄 In Progress |
-| **Phase 5** | Detection Engineering + Reporting — custom rules, PDF reports | ⏳ Pending |
+| **Phase 2** | Threat Intel, Honeypot - Cowrie SSH honeypot, Kali Linux | ✅ Complete |
+| **Phase 3** | Pre-Attack Setup — Velociraptor, Grafana SOC dashboard | ✅ Complete |
+| **Phase 4** | Red Team Scenarios + Detection Engineering — 5 scenarios, gap analysis, custom rules, re-test | ✅ Complete |
+| **Phase 5** | Automated Reporting — Jinja2 + WeasyPrint PDF report pipeline | ⏳ Pending |
 | **Phase 6** | Physical Security — Camera stack, Frigate, SOC integration | ⏳ Pending |
 | **Phase 7** | Polish, Portfolio, GitHub — Demo GIF, scenario evidence, sample outputs | ⏳ Pending |
 
@@ -320,9 +320,8 @@ Phase 0 - Core Infrastructure
 
 Phase 1 - AI Triage Pipeline
   [x] Install n8n on Hetzner (co-located with Wazuh, port 5678)
-  [x] Build ai_triage.py (Claude API structured prompting) - tested
+  [x] Build n8n workflow (Wazuh webhook → Claude API → routing → Telegram/PagerDuty)
   [x] Configure Telegram Bot + PagerDuty EU instance
-  [x] Build n8n alert workflow (Wazuh webhook → Claude → routing → Telegram/PagerDuty)
   [x] Configure Wazuh webhook integration in ossec.conf
 
 Phase 2 - Threat Intel + Honeypot
@@ -331,18 +330,23 @@ Phase 2 - Threat Intel + Honeypot
 
 Phase 3 - Pre-Attack Setup
   [x] Deploy Velociraptor server (Hetzner) + agent (Pi 3B+)
-  [x] Install Grafana on Pi 5 + build dashboards
+  [x] Install Grafana on Pi 5 + build SOC operations dashboard
 
-Phase 4 - Red Team Scenarios
-  [ ] Execute and document all 5 attack scenarios with full evidence
+Phase 4 - Red Team Scenarios + Detection Engineering
+  [x] Scenario 1: Reconnaissance (Nmap) — ET SCAN detection after HOME_NET fix
+  [x] Scenario 2: Brute Force (Hydra vs Cowrie) — full pipeline, Telegram MEDIUM
+  [x] Scenario 3: RCE (UnrealIRCd) — zero→12 CRITICAL after custom rules
+  [x] Scenario 4: Web Attacks (SQLmap vs DVWA) — zero→33 alerts after HTTP_PORTS fix
+  [x] Scenario 5: Lateral Movement (pivot) — LOW→CRITICAL after server IP rule
+  [x] Custom Suricata and Wazuh detection rules written from gap analysis
+  [x] Suricata configuration remediated (HOME_NET, HTTP_PORTS)
 
-Phase 5 - Detection Engineering + Reporting
-  [ ] Write custom Wazuh detection rules from red team findings
+Phase 5 - Automated Reporting
   [ ] Build Jinja2 + WeasyPrint PDF report pipeline
   [ ] Generate sample incident report from scenario data
 
 Phase 6 - Physical Security
-  [ ] Configure Frigate AI detection (pulling from MediaMTX RTSP)
+  [ ] Install MediaMTX + Frigate on Pi 5
   [ ] Integrate Frigate events → Wazuh Agent (Pi 5) → Hetzner
   [ ] Embed HLS feed in Grafana SOC dashboard
 
