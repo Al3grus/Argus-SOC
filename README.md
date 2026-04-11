@@ -341,9 +341,18 @@ Phase 4 - Red Team Scenarios + Detection Engineering
   [x] Custom Suricata and Wazuh detection rules written from gap analysis
   [x] Suricata configuration remediated (HOME_NET, HTTP_PORTS)
 
-Phase 5 - Automated Reporting
+Phase 5 - Hardening + Reporting
+  [x] Hetzner: non-root admin, root SSH disabled, API key secured
+  [x] Hetzner: UFW locked down — tunnel-only for all management UIs
+  [x] Hetzner: fail2ban operator whitelist after lockout incident
+  [x] Pi 5: DNS over HTTPS (dnscrypt-proxy → Pi-hole)
+  [x] Pi 5: Pi-hole + Grafana restricted to WireGuard
+  [x] Pi 3B+: Suricata log rotation, stats disabled, Zeek disabled (memory constraint)
+  [x] Pi 3B+: Bluetooth/Avahi disabled, unattended-upgrades
+  [x] Router: UPnP/WPS/remote management disabled, firmware updated
+  [x] n8n: Source IP regex fallback for escalation rule alerts
   [ ] Build Jinja2 + WeasyPrint PDF report pipeline
-  [ ] Generate sample incident report from scenario data
+  [ ] Generate sample incident report from Phase 5 incidents
 
 Phase 6 - Physical Security
   [ ] Install MediaMTX + Frigate on Pi 5
