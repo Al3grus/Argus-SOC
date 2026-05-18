@@ -1,1 +1,0 @@
-# A sample report will be added here in the future.
