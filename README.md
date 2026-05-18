@@ -47,7 +47,7 @@ The attacker (Kali VM on a ThinkPad) operates on the same subnet as the targets.
 | **argus-soc** | Hetzner CX23 (2 vCPU, 4GB, x86_64, Helsinki) | MSSP Cloud SOC Platform | Wazuh Manager + Indexer + Dashboard, n8n, Velociraptor server, Claude API triage |
 | **argus-hypervisor** | ThinkCentre M920x (i7-8700, 32GB DDR4, Proxmox VE) | Client Enterprise Infrastructure | Windows Server 2022 (DC01 — Active Directory), Windows 11 (WS01 — domain-joined), Metasploitable 2, DVWA |
 | **argus-central** | Raspberry Pi 5 (8GB) | MSSP Edge Sensor + Admin Tools | Suricata NIDS (SPAN), Zeek, Cowrie SSH honeypot, Wazuh Agent, Velociraptor Agent, Pi-hole DNS, WireGuard VPN server, Grafana |
-| **Red Team** | Lenovo ThinkPad T480 / Kali VM | Attacker | — |
+| **Red Team** | Lenovo ThinkPad T480 / Kali VM | Attacker | Nmap, Metasploit, Hydra, SQLmap |
 
 ---
 
