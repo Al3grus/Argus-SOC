@@ -130,8 +130,8 @@ Five red team scenarios covering the kill chain. Each scenario follows the **att
 |---|----------|-----------------|-------------------|-------------------|-----------|
 | 1 | Reconnaissance (Nmap) | T1046 | Partial (protocol anomalies only) | ET SCAN firing — 199 hits | [Read →](https://al3grus.github.io/posts/argus-soc-phase-4-scenario-1/) |
 | 2 | Credential Brute Force (Hydra) | T1110.001 | Full detection | N/A — full pipeline first time | [Read →](https://al3grus.github.io/posts/argus-soc-phase-4-scenario-2/) |
-| 3 | Remote Code Execution (UnrealIRCd) | T1190 | Zero detection | 12 CRITICAL alerts after custom rules | *(coming soon)* |
-| 4 | Web Application Attacks (SQLmap) | T1190 | Zero detection | 33 alerts, SQLmap identified | *(coming soon)* |
+| 3 | Remote Code Execution (UnrealIRCd) | T1190 | Zero detection | 12 CRITICAL alerts after custom rules | [Read →](https://al3grus.github.io/posts/argus-soc-phase-4-scenario-3/) |
+| 4 | Web Application Attacks (SQLmap) | T1190 | Zero detection | 33 alerts, SQLmap identified | [Read →](https://al3grus.github.io/posts/argus-soc-phase-4-scenario-4/) |
 | 5 | Lateral Movement (pivot) | T1021 | Partial (Claude classified as LOW) | CRITICAL, T1021 mapped after rule update | *(coming soon)* |
 
 Active Directory-specific scenarios (Kerberoasting, AS-REP roasting, DCSync, lateral movement on Windows) are planned for Phase 7.
