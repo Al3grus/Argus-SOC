@@ -3,7 +3,7 @@
 ## AI-Augmented Home Lab Security Operations Center
 > *Edge to cloud. Threat to response.*
 
-**Status:** Phases 0–5 complete. Phase 6 (Automated PDF Reporting) and Phase 7 (Active Directory attack scenarios) in progress.
+**Status:** Phases 0–5 complete. Phase 6 (Active Directory attack scenarios) in progress.
 
 ![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
 ![Platform: Home Lab](https://img.shields.io/badge/Platform-Home%20Lab-C51A4A)
@@ -117,7 +117,6 @@ Severity Routing (n8n Switch node)
 | Attack Targets | Metasploitable 2, DVWA |
 | Dashboards | Grafana |
 | DNS Filtering | Pi-hole v6 |
-| Reporting | Jinja2 + WeasyPrint *(planned — Phase 6)* |
 | Red Team | Kali Linux |
 
 ---
@@ -134,7 +133,7 @@ Five red team scenarios covering the kill chain. Each scenario follows the **att
 | 4 | Web Application Attacks (SQLmap) | T1190 | Zero detection | 33 alerts, SQLmap identified | [Read →](https://al3grus.github.io/posts/argus-soc-phase-4-scenario-4/) |
 | 5 | Lateral Movement (pivot) | T1021 | Partial (Claude classified as LOW) | CRITICAL, T1021 mapped after rule update | *(coming soon)* |
 
-Active Directory-specific scenarios (Kerberoasting, AS-REP roasting, DCSync, lateral movement on Windows) are planned for Phase 7.
+Active Directory-specific scenarios (Kerberoasting, AS-REP roasting, DCSync, lateral movement on Windows) are planned for Phase 6.
 
 ---
 
@@ -161,8 +160,8 @@ Active Directory-specific scenarios (Kerberoasting, AS-REP roasting, DCSync, lat
 | **Phase 3** | Pre-Attack Setup — Velociraptor DFIR, Grafana SOC dashboard | ✅ Complete |
 | **Phase 4** | Red Team Scenarios + Detection Engineering — 5 scenarios, attack → gap → fix → re-test | ✅ Complete |
 | **Phase 5** | Hardening + Architecture Migration — Hetzner / Pi 5 / router hardening, M920x onboarding, Proxmox, Active Directory lab build | ✅ Complete |
-| **Phase 6** | Automated PDF Reporting — Jinja2 + WeasyPrint pipeline | ⏳ Pending |
-| **Phase 7** | Active Directory Attack Scenarios — Kerberoasting, AS-REP roasting, DCSync, Windows lateral movement | ⏳ Planned |
+| **Phase 6** | Active Directory Attack Scenarios — Kerberoasting, AS-REP roasting, DCSync, Windows lateral movement | ⏳ Planned |
+
 
 ---
 
