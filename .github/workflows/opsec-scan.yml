@@ -1,0 +1,23 @@
+name: OPSEC scan
+
+# Runs the same guardrail as the pre-commit hook, so edits made in the GitHub web UI
+# are checked too. Real values to block come from the OPSEC_DENYLIST repository secret
+# (same format as the local .opsec-denylist file).
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Scan files, commit messages and authors in all history
+        env:
+          OPSEC_DENYLIST: ${{ secrets.OPSEC_DENYLIST }}
+        run: python3 scripts/opsec_scan.py --history

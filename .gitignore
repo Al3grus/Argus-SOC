@@ -1,0 +1,58 @@
+# Keys and credentials — NEVER commit these
+*.key
+*.pem
+*.p12
+.env
+.env.*
+!.env.example
+secrets/
+credentials/
+wazuh-passwords.txt
+*-passwords.txt
+
+# WireGuard private keys
+*private*
+
+# Real service configs — they carry addresses, peers and endpoints.
+# Commit a sanitised copy with an .example suffix instead (e.g. wg0.conf.example).
+wg*.conf
+ossec.conf
+cowrie.cfg
+mediamtx.yml
+frigate/config.yml
+n8n/*.json
+!n8n/*.example.json
+
+# OPSEC guardrail — real values to block, never committed (see scripts/opsec_scan.py)
+.opsec-denylist
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+venv/
+.venv/
+
+# Node / n8n
+node_modules/
+npm-debug.log
+
+# Logs
+*.log
+*.jsonl
+
+# OS
+.DS_Store
+Thumbs.db
+
+# VSCode
+.vscode/settings.json
+
+# Temporary
+*.tmp
+*.bak
