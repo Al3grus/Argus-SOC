@@ -91,8 +91,6 @@ Severity Routing (n8n Switch node)
 }
 ```
 
-> In testing, Claude correctly classifies ~80% of ET Open rule hits as noise — transforming hundreds of daily raw alerts into ~20–40 actionable items, with critical events surfaced immediately.
-
 ---
 
 ## 🛠️ Tech Stack
